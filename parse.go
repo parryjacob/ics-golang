@@ -511,11 +511,18 @@ func (p *Parser) parseTimeField(fieldName string, eventData string) (time.Time, 
 			return t, tzID
 		}
 		tzID = result[2]
-		dt := result[3]
+		dt := strings.TrimSuffix(result[3], "\r")
 		if !strings.Contains(dt, "Z") {
 			dt = fmt.Sprintf("%sZ", dt)
 		}
 		t, _ = time.Parse(IcsFormat, dt)
+	}
+
+	if len(tzID) > 0 {
+		loc, err := time.LoadLocation(tzID)
+		if err == nil {
+			t = time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), loc)
+		}
 	}
 
 	return t, tzID

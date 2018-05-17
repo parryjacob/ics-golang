@@ -578,7 +578,7 @@ func (p *Parser) parseEventAttendees(eventData string) []*Attendee {
 		if attendeeData == "" {
 			continue
 		}
-		attendee := p.parseAttendee(strings.Replace(strings.Replace(attendeeData, "\r", "", 1), "\n ", "", 1))
+		attendee := p.parseAttendee(strings.Replace(strings.Replace(attendeeData, "\r", "", -1), "\n ", "", -1))
 		//  check for any fields set
 		if attendee.GetEmail() != "" || attendee.GetName() != "" || attendee.GetRole() != "" || attendee.GetStatus() != "" || attendee.GetType() != "" {
 			attendeesObj = append(attendeesObj, attendee)
@@ -595,7 +595,7 @@ func (p *Parser) parseEventOrganizer(eventData string) *Attendee {
 	if organizerData == "" {
 		return nil
 	}
-	organizerDataFormated := strings.Replace(strings.Replace(organizerData, "\r", "", 1), "\n ", "", 1)
+	organizerDataFormated := strings.Replace(strings.Replace(organizerData, "\r", "", -1), "\n ", "", -1)
 
 	a := NewAttendee()
 	a.SetEmail(p.parseAttendeeMail(organizerDataFormated))

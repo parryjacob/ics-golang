@@ -347,7 +347,7 @@ func (p *Parser) parseEvents(cal *Calendar, eventsData []string) {
 				years = 0
 				break
 			case "WEEKLY":
-				days = 7
+				days = 7 * interval
 				months = 0
 				years = 0
 				break
